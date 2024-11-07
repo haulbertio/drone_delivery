@@ -1,7 +1,6 @@
 # In core/models.py
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.conf import settings
 
 class User(AbstractUser):
     ROLE_CHOICES = [
@@ -9,6 +8,8 @@ class User(AbstractUser):
         ('pilot', 'Pilot'),
     ]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+    email = models.EmailField(unique=True)  # Ensure email is unique
+    vessel_callsign = models.CharField(max_length=20, blank=True, null=True)  # Optional for pilots
 
     # Add custom related_name attributes to avoid clashes
     groups = models.ManyToManyField(
